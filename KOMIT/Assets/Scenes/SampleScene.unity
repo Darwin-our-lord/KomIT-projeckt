@@ -1173,7 +1173,6 @@ GameObject:
   m_Component:
   - component: {fileID: 909197457}
   - component: {fileID: 909197456}
-  - component: {fileID: 909197458}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1213,10 +1212,6 @@ MonoBehaviour:
     Frequency: 120
   Reliability: 2
   StatusText: {fileID: 261458791}
-  OptionButtons:
-  - {fileID: 756568174}
-  - {fileID: 302299961}
-  - {fileID: 1493245676}
   WordList:
   - Apple
   - Banana
@@ -1239,22 +1234,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &909197458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909197455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 419518920, guid: 0ae8d181602a00248a82f64a684a1c88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Multiplayer: {fileID: 1414347607}
-  _uidString: b4b712a6-3426-4a9b-b5c9-0a0216c21a4f
-  Reliability: 1
-  LocalMethodBehavior: 1
 --- !u!1001 &923293368
 PrefabInstance:
   m_ObjectHideFlags: 0
