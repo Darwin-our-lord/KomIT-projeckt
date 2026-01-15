@@ -7,9 +7,12 @@ public class GameManager : AttributesSync
 {
     [Header("UI References")]
     public TMP_Text StatusText;
+    public GameObject canvas;
+    public GameObject alterunaMenu;
 
     [Header("Game Data")]
     public List<string> WordList = new List<string> { "Apple", "Banana", "Dragon", "Ghost", "Unity", "Pizza" };
+    public List<string> EmojiList = new List<string> { "Apple", "Banana", "Dragon", "Ghost", "Unity", "Pizza" };
 
     // Synchronize the target word across all clients:
     [SynchronizableField]
@@ -17,14 +20,26 @@ public class GameManager : AttributesSync
 
     private void Update()
     {
-        // Only the host (player index 0) picks a new word:
-        if (Input.GetKeyDown(KeyCode.Space)
-            && Multiplayer.Instance != null
-            && Multiplayer.Instance.Me.Index == 0)
+        if(Multiplayer.GetUsers().Count == 2)
         {
-            PickNewWord();
+            // Only the host (player index 0) picks a new word:
+            if (Input.GetKeyDown(KeyCode.Space)
+                && Multiplayer.Instance != null
+                && Multiplayer.Instance.Me.Index == 0)
+            {
+                PickNewWord();
+            }
+            UpdateUI();
+            if(!canvas.activeSelf) canvas.SetActive(true);
+            if (alterunaMenu.activeSelf) alterunaMenu.SetActive(false);
         }
-        UpdateUI();
+        else
+        {
+            if (canvas.activeSelf) canvas.SetActive(false);
+            if (!alterunaMenu.activeSelf) alterunaMenu.SetActive(true);
+        }
+        
+
     }
 
     private void PickNewWord()

@@ -14,8 +14,9 @@ namespace Alteruna
 		[SerializeField] private GameObject ContentContainer;
 		[SerializeField] private Button StartButton;
 		[SerializeField] private Button LeaveButton;
+        [SerializeField] private Button InGameLeaveButton;
 
-		public bool ShowUserCount = false;
+        public bool ShowUserCount = false;
 
 		// manual refresh can be done by calling Multiplayer.RefreshRoomList();
 		public bool AutomaticallyRefresh = true;
@@ -63,8 +64,13 @@ namespace Alteruna
 					Multiplayer.CurrentRoom?.Leave();
 					_refreshTime = RefreshInterval;
 				});
+                InGameLeaveButton.onClick.AddListener(() =>
+                {
+                    Multiplayer.CurrentRoom?.Leave();
+                    _refreshTime = RefreshInterval;
+                });
 
-				if (TitleText != null)
+                if (TitleText != null)
 				{
 					ResponseCode blockedReason = Multiplayer.GetLastBlockResponse();
 					if (blockedReason != ResponseCode.NaN)
