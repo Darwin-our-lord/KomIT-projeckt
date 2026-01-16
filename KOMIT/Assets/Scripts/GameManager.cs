@@ -12,7 +12,7 @@ public class GameManager : AttributesSync
 
     [Header("Game Data")]
     public List<string> WordList = new List<string> { "Apple", "Banana", "Dragon", "Ghost", "Unity", "Pizza" };
-    public List<string> EmojiList = new List<string> { "Apple", "Banana", "Dragon", "Ghost", "Unity", "Pizza" };
+    public List<string> EmojiList = new List<string> { "gang gang" };
 
     // Synchronize the target word across all clients:
     [SynchronizableField]

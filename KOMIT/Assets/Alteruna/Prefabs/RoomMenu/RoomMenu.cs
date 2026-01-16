@@ -230,6 +230,7 @@ namespace Alteruna
 
 			for (int i = 0; i < multiplayer.AvailableRooms.Count; i++)
 			{
+				if (multiplayer.CurrentRoom == multiplayer.AvailableRooms[i]) continue;
 				Room room = multiplayer.AvailableRooms[i];
 				RoomObject entry;
 
