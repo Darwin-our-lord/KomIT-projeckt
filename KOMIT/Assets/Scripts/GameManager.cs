@@ -1,7 +1,19 @@
 using Alteruna;
-using UnityEngine;
-using TMPro;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+
+public enum miniGames
+{
+    colorCount,
+    Keypads
+
+
+
+}
+
 
 public class GameManager : AttributesSync
 {
@@ -11,25 +23,38 @@ public class GameManager : AttributesSync
     public GameObject alterunaMenu;
 
     [Header("Game Data")]
-    public List<string> WordList = new List<string> { "Apple", "Banana", "Dragon", "Ghost", "Unity", "Pizza" };
-    public List<string> EmojiList = new List<string> { "gang gang" };
 
     // Synchronize the target word across all clients:
     [SynchronizableField]
     public string TargetWord = "Press Space to Start";
 
+
+    static System.Random _R = new System.Random();
+    static miniGames RandomEnumValue<miniGames>()
+    {
+        var v = Enum.GetValues(typeof(miniGames));
+        return (miniGames)v.GetValue(_R.Next(v.Length));
+    }
+
     private void Update()
     {
         if(Multiplayer.GetUsers().Count == 2)
         {
-            // Only the host (player index 0) picks a new word:
-            if (Input.GetKeyDown(KeyCode.Space)
-                && Multiplayer.Instance != null
-                && Multiplayer.Instance.Me.Index == 0)
+            miniGames minigame = RandomEnumValue<miniGames>();
+            switch (minigame)
             {
-                PickNewWord();
+                case miniGames.colorCount:
+                    PlayColorCount();
+                    break;
+
+
+                default:
+                    Debug.LogError("no minigame was selected");
+                    
+                    break;
             }
-            UpdateUI();
+            Commit();
+
             if(!canvas.activeSelf) canvas.SetActive(true);
             if (alterunaMenu.activeSelf) alterunaMenu.SetActive(false);
         }
@@ -42,21 +67,91 @@ public class GameManager : AttributesSync
 
     }
 
-    private void PickNewWord()
-    {
-        if (WordList.Count > 0)
-        {
-            TargetWord = WordList[Random.Range(0, WordList.Count)];
-            // Inform Alteruna to sync our changed data to all clients:
-            Commit();  // triggers network sync:contentReference[oaicite:8]{index=8}:contentReference[oaicite:9]{index=9}
-        }
+
+    #region colorCountGame
+
+    [Header("ColorCountGame")]
+
+    [SynchronizableField]
+    public int greenAmmount = 0;
+    [SynchronizableField]
+    public int redAmmount = 0;
+    [SynchronizableField]
+    public int yellowAmmount = 0;
+    [SynchronizableField]
+    public int pinkAmmount = 0;
+
+    public void PlayColorCount() 
+    { 
+        
+        
+
+
     }
 
-    private void UpdateUI()
+    #endregion
+
+    #region keypadsGame
+
+    [Header("KeypadsGame")]
+    [SynchronizableField]
+    public List<Sprite> allSprites = new List<Sprite>();
+
+    [SynchronizableField]
+    public List<Sprite> answerSprites = new List<Sprite>();
+
+    [SynchronizableField]
+    public List<Sprite> orderSprites = new List<Sprite>();
+
+    [SynchronizableField]
+    public GameObject player1UI;
+    public void PlayKeypads()
     {
-        if (StatusText != null)
+        answerSprites.Clear();
+        while (answerSprites.Count < 4)
         {
-            StatusText.text = "Target Word: " + TargetWord;
+            Sprite s = allSprites[UnityEngine.Random.Range(0, allSprites.Count)];
+            if (!answerSprites.Contains(s)) answerSprites.Add(s);
         }
+
+        orderSprites = new List<Sprite>(new Sprite[6]);
+
+        var slots = Enumerable.Range(0, 6).OrderBy(_ => UnityEngine.Random.value).Take(4).OrderBy(x => x).ToList();
+
+        int ansIndex = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            if (slots.Contains(i))
+            {
+                orderSprites[i] = answerSprites[ansIndex++];
+            }
+            else
+            {
+                do { orderSprites[i] = allSprites[UnityEngine.Random.Range(0, allSprites.Count)]; }
+                while (answerSprites.Contains(orderSprites[i]) || orderSprites.IndexOf(orderSprites[i]) != i);
+            }
+        }
+        Commit();
+
+        if (Multiplayer.Instance.Me.Index == 0)
+        {
+
+
+
+
+        }
+        else if (Multiplayer.Instance.Me.Index == 1)
+        {
+
+
+
+            
+                
+
+        }
+
+
     }
+
+    #endregion
 }
