@@ -563,7 +563,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.48512045, g: 0.8301887, b: 0.30936277, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1281,16 +1281,23 @@ MonoBehaviour:
   StatusText: {fileID: 261458791}
   canvas: {fileID: 208025567}
   alterunaMenu: {fileID: 2067111481}
-  WordList:
-  - Apple
-  - Banana
-  - Dragon
-  - Ghost
-  - Unity
-  - Pizza
-  EmojiList:
-  - gang gang
   TargetWord: Press Space to Start
+  greenAmmount: 0
+  redAmmount: 0
+  yellowAmmount: 0
+  pinkAmmount: 0
+  allSprites:
+  - {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
+  - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  - {fileID: -712631045867808456, guid: b670ab75dde984907b8570040daa08c5, type: 3}
+  - {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  - {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  - {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
+  player1UI: {fileID: 0}
+  player1SpritesOBJ: []
+  player2UI: {fileID: 0}
+  player2SpritesOBJ: []
 --- !u!4 &909197457
 Transform:
   m_ObjectHideFlags: 0
@@ -1553,6 +1560,14 @@ PrefabInstance:
     - target: {fileID: 8763101913662790852, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
       propertyPath: m_SizeDelta.x
       value: 202.8965
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763101913705298801, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
+      propertyPath: m_ScaleFactor
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763101913705298801, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
+      propertyPath: m_ReferencePixelsPerUnit
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8763101913705298803, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
       propertyPath: m_Pivot.x
