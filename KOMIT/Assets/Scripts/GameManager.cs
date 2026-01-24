@@ -1,5 +1,6 @@
 using Alteruna;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 
 public enum miniGames
 {
-    colorCount,
+    //colorCount,
     Keypads
 
 
@@ -19,16 +20,19 @@ public enum miniGames
 public class GameManager : AttributesSync
 {
     [Header("UI References")]
-    public TMP_Text StatusText;
-    public GameObject canvas;
     public GameObject alterunaMenu;
 
     [Header("Game Data")]
 
     [SynchronizableField]
+    public int currentMinigame = 0;
+
+    [SynchronizableField]
     public string TargetWord = "Press Space to Start";
 
-    [SynchronizableField] public bool minigameRunning = false;
+    [SynchronizableField] 
+    public bool minigameRunning = false;
+
 
     static System.Random _R = new System.Random();
     static miniGames RandomEnumValue<miniGames>()
@@ -42,35 +46,60 @@ public class GameManager : AttributesSync
         if (minigameRunning) return;
         if(Multiplayer.GetUsers().Count == 2)
         {
-            minigameRunning =true;
-            miniGames minigame = RandomEnumValue<miniGames>();
-            switch (minigame)
+            if (Multiplayer.Me.Index == 0)
             {
-                case miniGames.colorCount:
+                
+                currentMinigame = 0;
+                miniGames minigame = RandomEnumValue<miniGames>();
+                switch (minigame)
+                {
+                    /*case miniGames.colorCount:
+                       currentMinigame = 1;
+                        break;*/
+
+                    case miniGames.Keypads:
+                        currentMinigame = 2;
+                        break;
+
+                    default:
+                        Debug.LogError("no minigame was selected - you're a dumbass, dumbass");
+                        return;
+                }
+                Commit();
+            }
+            Debug.LogWarning("waiting");
+            if (currentMinigame == 0) return;
+
+            switch (currentMinigame)
+            {
+                case 1:
                     PlayColorCount();
                     break;
 
-                case miniGames.Keypads:
+                case 2:
+                    Debug.Log("done!!!");
                     PlayKeypads();
                     break;
 
-                default:
-                    Debug.LogError("no minigame was selected");
-                    return;
-            }
-            Commit();
+                case 0:
+                    Debug.LogError("no minigame was selected - you're a dumbass, dumbass\n ohh and its in like the second thing btw<3");
+                    break;
 
-            if(!canvas.activeSelf) canvas.SetActive(true);
+            }
+            minigameRunning = true;
+
             if (alterunaMenu.activeSelf) alterunaMenu.SetActive(false);
         }
         else
         {
-            if (canvas.activeSelf) canvas.SetActive(false);
             if (!alterunaMenu.activeSelf) alterunaMenu.SetActive(true);
         }
         
 
     }
+
+
+
 
 
     #region colorCountGame
@@ -100,26 +129,26 @@ public class GameManager : AttributesSync
 
     [Header("KeypadsGame")]
 
-    [SynchronizableField]
     public List<Sprite> allSprites = new List<Sprite>();
 
-    [SynchronizableField]
+
     public GameObject player1UI;
-    [SynchronizableField]
+
     public GameObject[] player1SpritesOBJ;
 
 
-    [SynchronizableField]
     public GameObject player2UI;
-    [SynchronizableField]
+
     public GameObject[] player2SpritesOBJ;
 
+    [SynchronizableField]
+    bool needsWait = true;
 
     [SynchronizableField]
-    private List<Sprite> answerSprites = new List<Sprite>();
+    private List<int> answerSpritesID = new List<int>();
 
-    [SynchronizableField]
-    private List<Sprite> orderSprites = new List<Sprite>();
+    [SynchronizableField] 
+    private List<int> orderSpritesID = new List<int>();
 
 
     [SynchronizableField]
@@ -132,39 +161,49 @@ public class GameManager : AttributesSync
     private int lossesAmount = 0;
     private bool gameWon = false;
 
-
     public void PlayKeypads()
     {
-        currentStageIndex = 0;
-        gameWon = false;
-        answerSprites.Clear();
-
-        while (answerSprites.Count < answerSpriteAmount)
+        if (Multiplayer.Me.Index == 0)
         {
-            Sprite s = allSprites[UnityEngine.Random.Range(0, allSprites.Count)];
-            if (!answerSprites.Contains(s)) answerSprites.Add(s);
-        }
+            needsWait = true;
+            currentStageIndex = 0;
+            gameWon = false;
+            answerSpritesID.Clear();
 
-        orderSprites = new List<Sprite>(new Sprite[orderSpriteAmount]);
 
-        //makes a list of 6 numbers, randomly shuffles them, picks the first 4, puts them in order from smallest to largest
-        var slots = Enumerable.Range(0, orderSpriteAmount).OrderBy(_ => UnityEngine.Random.value).Take(answerSpriteAmount).OrderBy(x => x).ToList();
 
-        int ansIndex = 0;
-        for (int i = 0; i < orderSpriteAmount; i++)
-        {
-            if (slots.Contains(i))
+            while (answerSpritesID.Count < answerSpriteAmount)
             {
-                orderSprites[i] = answerSprites[ansIndex];
-                ansIndex++;
+                int s = UnityEngine.Random.Range(0, allSprites.Count);
+                if (!answerSpritesID.Contains(s)) answerSpritesID.Add(s);
             }
-            else
+
+            orderSpritesID = new List<int>(new int[orderSpriteAmount]);
+
+            //makes a list of 6 numbers, randomly shuffles them, picks the first 4, puts them in order from smallest to largest
+            var slots = Enumerable.Range(0, orderSpriteAmount).OrderBy(_ => UnityEngine.Random.value).Take(answerSpriteAmount).OrderBy(x => x).ToList();
+
+            int ansIndex = 0;
+            for (int i = 0; i < orderSpriteAmount; i++)
             {
-                do { orderSprites[i] = allSprites[UnityEngine.Random.Range(0, allSprites.Count)]; }
-                while (answerSprites.Contains(orderSprites[i]) || orderSprites.IndexOf(orderSprites[i]) != i);
+                if (slots.Contains(i))
+                {
+                    orderSpritesID[i] = answerSpritesID[ansIndex];
+                    ansIndex++;
+                }
+                else
+                {
+                    do { orderSpritesID[i] = UnityEngine.Random.Range(0, allSprites.Count); }
+                    while (answerSpritesID.Contains(orderSpritesID[i]) || orderSpritesID.IndexOf(orderSpritesID[i]) != i);
+                }
             }
+            needsWait = false;
+            Commit();
+
         }
-        Commit();
+        Debug.LogWarning("waiting2---");
+        if (needsWait) { StartCoroutine(WaitThenRestart()); return; }
+        Debug.Log("done2");
 
         //answer guy-------------------------------------------------------------------------------------------------
         if (Multiplayer.Instance.Me.Index == 0)
@@ -173,7 +212,7 @@ public class GameManager : AttributesSync
 
             for (int i = 0; i < answerSpriteAmount; i++) 
             {
-                player1SpritesOBJ[i].GetComponent<SpriteRenderer>().sprite = answerSprites[i];
+                player1SpritesOBJ[i].GetComponent<Image>().sprite = allSprites[answerSpritesID[i]];
                 player1SpritesOBJ[i].GetComponent<KeypadButton>().SetIndex(i);
             } 
 
@@ -189,7 +228,7 @@ public class GameManager : AttributesSync
 
             for (int i = 0; i < orderSpriteAmount; i++)
             {
-                player2SpritesOBJ[i].GetComponent<SpriteRenderer>().sprite = orderSprites[i];
+                player2SpritesOBJ[i].GetComponent<Image>().sprite = allSprites[answerSpritesID[i]];
             }
 
         }
@@ -202,7 +241,7 @@ public class GameManager : AttributesSync
         if(index == currentStageIndex)
         {
             currentStageIndex++;
-            player1SpritesOBJ[index].GetComponent<SpriteRenderer>().color = Color.green;
+            player1SpritesOBJ[index].GetComponent<Image>().color = Color.green;
 
             if (currentStageIndex <= 5)
             {
@@ -217,6 +256,12 @@ public class GameManager : AttributesSync
                 //kill everyone!!!!!
             }
         }
+    }
+
+    public IEnumerator WaitThenRestart()
+    {
+        yield return new WaitForSeconds(0.1f);
+        PlayKeypads();
     }
 
     #endregion

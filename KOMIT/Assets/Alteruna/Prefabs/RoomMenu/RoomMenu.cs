@@ -14,7 +14,7 @@ namespace Alteruna
 		[SerializeField] private GameObject ContentContainer;
 		[SerializeField] private Button StartButton;
 		[SerializeField] private Button LeaveButton;
-        [SerializeField] private Button InGameLeaveButton;
+        [SerializeField] private Button[] InGameLeaveButton;
 
         public bool ShowUserCount = false;
 
@@ -64,12 +64,15 @@ namespace Alteruna
 					Multiplayer.CurrentRoom?.Leave();
 					_refreshTime = RefreshInterval;
 				});
-                InGameLeaveButton.onClick.AddListener(() =>
-                {
-                    Multiplayer.CurrentRoom?.Leave();
-                    _refreshTime = RefreshInterval;
-                });
-
+				foreach (Button but in InGameLeaveButton) 
+				{
+					Debug.Log(but.name + " - Leave listener added");
+					but.onClick.AddListener(() =>
+					{
+						Multiplayer.CurrentRoom?.Leave();
+						_refreshTime = RefreshInterval;
+					});
+				}
                 if (TitleText != null)
 				{
 					ResponseCode blockedReason = Multiplayer.GetLastBlockResponse();
