@@ -28,6 +28,9 @@ public class GameManager : AttributesSync
     public int currentMinigame = 0;
 
     [SynchronizableField]
+    public int minigamesCompleted = 0;
+
+    [SynchronizableField]
     public string TargetWord = "Press Space to Start";
 
     [SynchronizableField] 
@@ -159,7 +162,6 @@ public class GameManager : AttributesSync
 
     private int currentStageIndex = 0;
     private int lossesAmount = 0;
-    private bool gameWon = false;
 
     public void PlayKeypads()
     {
@@ -167,7 +169,6 @@ public class GameManager : AttributesSync
         {
             needsWait = true;
             currentStageIndex = 0;
-            gameWon = false;
             answerSpritesID.Clear();
 
 
@@ -228,7 +229,7 @@ public class GameManager : AttributesSync
 
             for (int i = 0; i < orderSpriteAmount; i++)
             {
-                player2SpritesOBJ[i].GetComponent<Image>().sprite = allSprites[answerSpritesID[i]];
+                player2SpritesOBJ[i].GetComponent<Image>().sprite = allSprites[orderSpritesID[i]];
             }
 
         }
@@ -243,17 +244,27 @@ public class GameManager : AttributesSync
             currentStageIndex++;
             player1SpritesOBJ[index].GetComponent<Image>().color = Color.green;
 
-            if (currentStageIndex <= 5)
+            if (currentStageIndex >= answerSpriteAmount)
             {
-                gameWon = true;
+                minigamesCompleted++;
+                Debug.LogError("GAME WON______");
             }
         }
         else
         {
             lossesAmount++;
-            if(lossesAmount > 3)
+            if(lossesAmount < 3)
             {
-                //kill everyone!!!!!
+                currentStageIndex = 0;
+                for (int i = 0; i < player1SpritesOBJ.Length; i++)
+                {
+                    player1SpritesOBJ[i].GetComponent<Image>().color = Color.white;
+                }
+            }
+            else
+            {
+                Debug.LogError("GAME LOST!!!");
+
             }
         }
     }

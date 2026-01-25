@@ -10,7 +10,7 @@ public class KeypadButton : MonoBehaviour
         this.index = index;
 
     }
-    private void OnMouseDown()
+    public void ButtonDown()
     {
         if (gameManager != null)
         {
