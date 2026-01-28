@@ -4,13 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public enum miniGames
 {
-    //colorCount,
-    Keypads
+    Keypads,
+    ColorPick
 
 
 
@@ -33,7 +34,7 @@ public class GameManager : AttributesSync
     [SynchronizableField]
     public string TargetWord = "Press Space to Start";
 
-    [SynchronizableField] 
+    [SynchronizableField]
     public bool minigameRunning = false;
 
 
@@ -47,41 +48,49 @@ public class GameManager : AttributesSync
     private void Update()
     {
         if (minigameRunning) return;
-        if(Multiplayer.GetUsers().Count == 2)
+        if (Multiplayer.GetUsers().Count == 2)
         {
-            if (Multiplayer.Me.Index == 0)
+            bool chosengame = false;
+            if (Multiplayer.Me.Index == 0 && !chosengame)
             {
-                
+
                 currentMinigame = 0;
                 miniGames minigame = RandomEnumValue<miniGames>();
                 switch (minigame)
                 {
-                    /*case miniGames.colorCount:
-                       currentMinigame = 1;
-                        break;*/
 
                     case miniGames.Keypads:
                         currentMinigame = 2;
                         break;
-
+                    case miniGames.ColorPick:
+                        currentMinigame = 3;
+                        break;
                     default:
                         Debug.LogError("no minigame was selected - you're a dumbass, dumbass");
                         return;
                 }
+                chosengame = true;
                 Commit();
             }
-            Debug.LogWarning("waiting");
-            if (currentMinigame == 0) return;
+            else
+            {
+                Debug.LogWarning("waiting");
+                if (currentMinigame == 0) return;
+                minigameRunning = true;
+                Commit();
+                Debug.LogWarning("done!!!");
+            }
+            if (minigameRunning == false) return;
 
             switch (currentMinigame)
             {
-                case 1:
-                    PlayColorCount();
-                    break;
-
                 case 2:
                     Debug.Log("done!!!");
                     PlayKeypads();
+                    break;
+                case 3:
+                    Debug.Log("done!!!");
+                    PlayColorPickerGame();
                     break;
 
                 case 0:
@@ -89,7 +98,7 @@ public class GameManager : AttributesSync
                     break;
 
             }
-            minigameRunning = true;
+
 
             if (alterunaMenu.activeSelf) alterunaMenu.SetActive(false);
         }
@@ -97,40 +106,13 @@ public class GameManager : AttributesSync
         {
             if (!alterunaMenu.activeSelf) alterunaMenu.SetActive(true);
         }
-        
-
-    }
-
-
-
-
-
-    #region colorCountGame
-
-    [Header("ColorCountGame")]
-
-    [SynchronizableField]
-    public int greenAmmount = 0;
-    [SynchronizableField]
-    public int redAmmount = 0;
-    [SynchronizableField]
-    public int yellowAmmount = 0;
-    [SynchronizableField]
-    public int pinkAmmount = 0;
-
-    public void PlayColorCount() 
-    { 
-        
-        
 
 
     }
-
-    #endregion
 
     #region keypadsGame
 
-    [Header("KeypadsGame")]
+    [Header("--KeypadsGame--")]
 
     public List<Sprite> allSprites = new List<Sprite>();
 
@@ -150,7 +132,7 @@ public class GameManager : AttributesSync
     [SynchronizableField]
     private List<int> answerSpritesID = new List<int>();
 
-    [SynchronizableField] 
+    [SynchronizableField]
     private List<int> orderSpritesID = new List<int>();
 
 
@@ -211,11 +193,11 @@ public class GameManager : AttributesSync
         {
             player1UI.SetActive(true);
 
-            for (int i = 0; i < answerSpriteAmount; i++) 
+            for (int i = 0; i < answerSpriteAmount; i++)
             {
                 player1SpritesOBJ[i].GetComponent<Image>().sprite = allSprites[answerSpritesID[i]];
                 player1SpritesOBJ[i].GetComponent<KeypadButton>().SetIndex(i);
-            } 
+            }
 
         }
 
@@ -239,7 +221,7 @@ public class GameManager : AttributesSync
 
     public void keyPadMinigameButton(int index)
     {
-        if(index == currentStageIndex)
+        if (index == currentStageIndex)
         {
             currentStageIndex++;
             player1SpritesOBJ[index].GetComponent<Image>().color = Color.green;
@@ -253,7 +235,7 @@ public class GameManager : AttributesSync
         else
         {
             lossesAmount++;
-            if(lossesAmount < 3)
+            if (lossesAmount < 3)
             {
                 currentStageIndex = 0;
                 for (int i = 0; i < player1SpritesOBJ.Length; i++)
@@ -276,4 +258,118 @@ public class GameManager : AttributesSync
     }
 
     #endregion
+
+
+    #region colorpickergame
+
+    [Header("--ColorPickerGame--")]
+
+    public List<Color> allColors = new List<Color>();
+
+    public GameObject player1UI_CP;
+
+    public GameObject[] player1SpritesOBJ_CP;
+    public GameObject[] player1ColorOBJ_CP;
+
+    public GameObject player2UI_CP;
+
+    public GameObject[] player2SpritesOBJ_CP;
+
+    [SynchronizableField]
+    private List<int> answerSpritesID_CP = new List<int>();
+
+    [SynchronizableField]
+    private List<int> answerSpritesIDColor_CP = new List<int>();
+
+    [SynchronizableField]
+    private int answerSpriteAmount_CP = 4;
+
+    private int completedAmount_CP = 0;
+    private int lossesAmount_CP = 0;
+
+    public void PlayColorPickerGame()
+    {
+        if (Multiplayer.Me.Index == 0)
+        {
+            needsWait = true;
+            completedAmount_CP = 0;
+            answerSpritesID_CP.Clear();
+
+
+
+            while (answerSpritesID_CP.Count < answerSpriteAmount_CP)
+            {
+                int s = UnityEngine.Random.Range(0, allSprites.Count);
+                if (!answerSpritesID_CP.Contains(s)) answerSpritesID_CP.Add(s);
+            }
+            while (answerSpritesIDColor_CP.Count < answerSpriteAmount_CP)
+            {
+                int s = UnityEngine.Random.Range(0, allColors.Count);
+                if (!answerSpritesIDColor_CP.Contains(s)) answerSpritesIDColor_CP.Add(s);
+            }
+
+            List<int> extraSpritesID = new List<int>(new int[orderSpriteAmount]);
+
+            needsWait = false;
+            Commit();
+
+        }
+
+        if (needsWait) { StartCoroutine(WaitThenRestartColorPicker()); return; }
+
+
+        if (Multiplayer.Instance.Me.Index == 0)
+        {
+            player1UI_CP.SetActive(true);
+
+            for (int i = 0; i < answerSpriteAmount; i++)
+            {
+                player1SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[answerSpritesID_CP[i]];
+                player1ColorOBJ_CP[i].GetComponent<Image>().color = allColors[answerSpritesIDColor_CP[i]];
+            }
+
+            //make work
+        }
+
+
+        if (Multiplayer.Instance.Me.Index == 1)
+        {
+            player2UI_CP.SetActive(true);
+
+            List<int> answerSpritesWithExtra = answerSpritesID_CP;
+            List<int> answerSpritesColorWithExtra = answerSpritesIDColor_CP;
+
+            while (answerSpritesWithExtra.Count < answerSpriteAmount_CP+1)
+            {
+                int s = UnityEngine.Random.Range(0, allSprites.Count);
+                if (!answerSpritesWithExtra.Contains(s)) answerSpritesWithExtra.Add(s);
+            }
+            while (answerSpritesColorWithExtra.Count < answerSpriteAmount_CP+1)
+            {
+                int s = UnityEngine.Random.Range(0, allColors.Count);
+                if (!answerSpritesColorWithExtra.Contains(s)) answerSpritesColorWithExtra.Add(s);
+            }
+
+
+            for (int i = 0; i < answerSpritesWithExtra.Count; i++)
+            {
+                player2SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[answerSpritesWithExtra[i]];
+                player2SpritesOBJ_CP[i].GetComponent<Image>().color = allColors[answerSpritesColorWithExtra[i]];
+            }
+
+            //make work
+        }
+
+
+
+    }
+
+    public IEnumerator WaitThenRestartColorPicker()
+    {
+        yield return new WaitForSeconds(0.1f);
+        PlayColorPickerGame();
+    }
+
+    #endregion
+
 }
