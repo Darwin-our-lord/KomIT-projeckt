@@ -34,9 +34,10 @@ public class GameManager : AttributesSync
     [SynchronizableField]
     public string TargetWord = "Press Space to Start";
 
-    [SynchronizableField]
     public bool minigameRunning = false;
 
+    [SynchronizableField]
+    private bool minigameChosen = false;
 
     static System.Random _R = new System.Random();
     static miniGames RandomEnumValue<miniGames>()
@@ -50,46 +51,53 @@ public class GameManager : AttributesSync
         if (minigameRunning) return;
         if (Multiplayer.GetUsers().Count == 2)
         {
-            bool chosengame = false;
-            if (Multiplayer.Me.Index == 0 && !chosengame)
+            if (Multiplayer.Me.Index == 0)
             {
-
-                currentMinigame = 0;
-                miniGames minigame = RandomEnumValue<miniGames>();
-                switch (minigame)
+                if (!minigameChosen)
                 {
+                    currentMinigame = 0;
+                    miniGames minigame = RandomEnumValue<miniGames>();
+                    switch (minigame)
+                    {
 
-                    case miniGames.Keypads:
-                        currentMinigame = 2;
-                        break;
-                    case miniGames.ColorPick:
-                        currentMinigame = 3;
-                        break;
-                    default:
-                        Debug.LogError("no minigame was selected - you're a dumbass, dumbass");
-                        return;
+                        case miniGames.Keypads:
+                            currentMinigame = 2;
+                            break;
+                        case miniGames.ColorPick:
+                            currentMinigame = 3;
+                            break;
+                        default:
+                            Debug.LogError("no minigame was selected - you're a dumbass, dumbass");
+                            return;
+                    }
+                    minigameChosen = true;
+                    Commit();
                 }
-                chosengame = true;
-                Commit();
             }
             else
             {
-                Debug.LogWarning("waiting");
-                if (currentMinigame == 0) return;
-                minigameRunning = true;
-                Commit();
-                Debug.LogWarning("done!!!");
+                if (currentMinigame == 0)
+                {
+                    Debug.LogWarning("waiting for minigame sync...");
+                    return;
+                }
+
             }
-            if (minigameRunning == false) return;
+            Debug.LogError("FUCK YOU  -  "+currentMinigame);
 
             switch (currentMinigame)
             {
                 case 2:
                     Debug.Log("done!!!");
+                    minigameRunning = true;
+                    Commit();
                     PlayKeypads();
+                   
                     break;
                 case 3:
                     Debug.Log("done!!!");
+                    minigameRunning = true;
+                    Commit();
                     PlayColorPickerGame();
                     break;
 
@@ -246,7 +254,6 @@ public class GameManager : AttributesSync
             else
             {
                 Debug.LogError("GAME LOST!!!");
-
             }
         }
     }
