@@ -239,6 +239,8 @@ public class GameManager : AttributesSync
             {
                 minigamesCompleted++;
                 Debug.LogError("GAME WON______");
+                minigameRunning = false;
+                minigameChosen = false;
             }
         }
         else
