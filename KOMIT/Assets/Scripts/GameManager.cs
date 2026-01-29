@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -299,6 +300,8 @@ public class GameManager : AttributesSync
         if (Multiplayer.Me.Index == 0)
         {
             needsWait = true;
+            Commit();
+
             completedAmount_CP = 0;
             answerSpritesID_CP.Clear();
 
@@ -333,9 +336,10 @@ public class GameManager : AttributesSync
             {
                 player1SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[answerSpritesID_CP[i]];
                 player1ColorOBJ_CP[i].GetComponent<Image>().color = allColors[answerSpritesIDColor_CP[i]];
-            }
 
-            //make work
+                player1ColorOBJ_CP[i].GetComponent<ColorZone>().SetAnswerId(i);
+                player1SpritesOBJ_CP[i].GetComponent<UIDrag>().SetAnswerId(i);
+            }
         }
 
 
@@ -363,14 +367,32 @@ public class GameManager : AttributesSync
                 player2SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[answerSpritesWithExtra[i]];
                 player2SpritesOBJ_CP[i].GetComponent<Image>().color = allColors[answerSpritesColorWithExtra[i]];
             }
-
-            //make work
         }
-
-
-
     }
+    public void CheckRightColorMatch(int objNR, int colorNR)
+    {
+        if(objNR == colorNR)
+        {
+            completedAmount_CP++;
+            Debug.LogError("win");
+            if (completedAmount_CP == answerSpriteAmount)
+            {
 
+            }
+
+
+        }
+        else
+        {
+            lossesAmount_CP++;
+            Debug.LogError("loss");
+            if (lossesAmount_CP == 3)
+            {
+
+            }
+
+        }
+    }
     public IEnumerator WaitThenRestartColorPicker()
     {
         yield return new WaitForSeconds(0.1f);

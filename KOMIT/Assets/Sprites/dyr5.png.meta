@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d9c7146aacce6994cb6f2a4a008aaa1d
+guid: d2d61f8ff23f8074986c4461c1f81ac1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3844587301062492804
-    second: dyr3_0
+      213: -681960633852740542
+    second: dyr5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -74,7 +74,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dyr3_0
+      name: dyr5_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 21
-        width: 507
-        height: 448
+        x: 20
+        y: 0
+        width: 492
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 482cec3e7c7ba5530800000000000000
-      internalID: 3844587301062492804
+      spriteID: 24c386caa603986f0800000000000000
+      internalID: -681960633852740542
       vertices: []
       indices: 
       edges: []
@@ -134,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dyr5_0: -681960633852740542
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
