@@ -237,7 +237,7 @@ public class GameManager : AttributesSync
 
                 // Apply visual and logic to the randomized button slot
                 player1SpritesOBJ[buttonSlot].GetComponent<Image>().sprite = allSprites[answerSpritesID[i]];
-                player1SpritesOBJ[buttonSlot].GetComponent<KeypadButton>().SetIndex(i);
+                player1SpritesOBJ[buttonSlot].GetComponent<KeypadButton>().SetIndex(i,buttonSlot);
 
                 // Ensure color is reset
                 player1SpritesOBJ[buttonSlot].GetComponent<Image>().color = Color.white;
@@ -255,12 +255,12 @@ public class GameManager : AttributesSync
     }
 
 
-    public void keyPadMinigameButton(int index)
+    public void keyPadMinigameButton(int index, int visualNR)
     {
         if (index == currentStageIndex)
         {
             currentStageIndex++;
-            player1SpritesOBJ[index].GetComponent<Image>().color = Color.green;
+            player1SpritesOBJ[visualNR].GetComponent<Image>().color = Color.green;
             if (currentStageIndex >= answerSpriteAmount)
             {
                 if (Multiplayer.Me.Index == 0)

@@ -4,17 +4,18 @@ using UnityEngine;
 public class KeypadButton : MonoBehaviour
 {
     public int index;
+    public int visualNR;
     public GameManager gameManager;
-    public void SetIndex(int index)
+    public void SetIndex(int index, int visualNR)
     {
         this.index = index;
-
+        this.visualNR = visualNR;
     }
     public void ButtonDown()
     {
         if (gameManager != null)
         {
-            gameManager.keyPadMinigameButton(index);
+            gameManager.keyPadMinigameButton(index, visualNR);
         }
     }
 }
