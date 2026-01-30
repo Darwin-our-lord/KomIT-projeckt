@@ -386,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 208025570}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &49033209
@@ -524,6 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  visualNR: 0
   gameManager: {fileID: 909197456}
 --- !u!114 &129020427
 MonoBehaviour:
@@ -2817,6 +2819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  visualNR: 0
   gameManager: {fileID: 909197456}
 --- !u!114 &924384138
 MonoBehaviour:
@@ -3113,6 +3116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 208025570}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &1024805695
@@ -3412,6 +3416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 208025570}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &1163361630
@@ -3590,6 +3595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  visualNR: 0
   gameManager: {fileID: 909197456}
 --- !u!114 &1202735986
 MonoBehaviour:
@@ -3736,6 +3742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 208025570}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &1210577890
@@ -4374,6 +4381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
+  visualNR: 0
   gameManager: {fileID: 909197456}
 --- !u!114 &1536567280
 MonoBehaviour:

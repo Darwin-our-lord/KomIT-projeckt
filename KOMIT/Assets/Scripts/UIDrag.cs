@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform rectTransform;
-    private Canvas canvas;
+    public Canvas canvas;
     private Vector2 originalPosition;
     private Image image;
     private bool isInitialized = false; // Track if we have references
@@ -26,7 +26,7 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (isInitialized) return;
 
         rectTransform = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<Canvas>();
+        //canvas = GetComponentInParent<Canvas>();
         image = GetComponent<Image>();
         originalPosition = rectTransform.anchoredPosition;
 
@@ -60,7 +60,7 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public void OnDrag(PointerEventData eventData)
     {
         Initialize();
-        rectTransform.anchoredPosition += eventData.delta /*/ canvas.scaleFactor*/;
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
