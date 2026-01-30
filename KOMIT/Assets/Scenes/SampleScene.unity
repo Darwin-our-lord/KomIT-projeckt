@@ -2392,7 +2392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1102478636, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
       propertyPath: InGameLeaveButton.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1102478636, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
       propertyPath: 'InGameLeaveButton.Array.data[0]'
@@ -2406,6 +2406,10 @@ PrefabInstance:
       propertyPath: 'InGameLeaveButton.Array.data[2]'
       value: 
       objectReference: {fileID: 1660237003}
+    - target: {fileID: 1102478636, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
+      propertyPath: 'InGameLeaveButton.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2063174399}
     - target: {fileID: 1379062224, guid: 5a577542a281e0a448dc3b383023e1f2, type: 3}
       propertyPath: m_SizeDelta.y
       value: 25.1119
@@ -3199,7 +3203,7 @@ GameObject:
   - component: {fileID: 1132006665}
   - component: {fileID: 1132006664}
   m_Layer: 5
-  m_Name: Leave (1)
+  m_Name: Leave (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4914,7 +4918,7 @@ GameObject:
   - component: {fileID: 2058194086}
   - component: {fileID: 2058194085}
   m_Layer: 5
-  m_Name: Leave (1)
+  m_Name: Leave (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5035,7 +5039,7 @@ GameObject:
   - component: {fileID: 2063174400}
   - component: {fileID: 2063174399}
   m_Layer: 5
-  m_Name: Leave (1)
+  m_Name: Leave (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
