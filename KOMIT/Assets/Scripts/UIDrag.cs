@@ -59,7 +59,8 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        Initialize();
+        rectTransform.anchoredPosition += eventData.delta /*/ canvas.scaleFactor*/;
     }
 
     public void OnEndDrag(PointerEventData eventData)

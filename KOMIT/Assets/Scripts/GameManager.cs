@@ -24,6 +24,7 @@ public class GameManager : AttributesSync
     public bool minigameRunning = false;
 
     [SynchronizableField] private bool triggerReset = false;
+    private bool triggerResetplayer0 = false;
     [SynchronizableField] private bool minigameChosen = false;
 
     static System.Random _R = new System.Random();
@@ -38,9 +39,11 @@ public class GameManager : AttributesSync
         // 1. If a reset is triggered, clean up and STOP here for this frame.
         if (triggerReset)
         {
-            ResetAllMinigames();
+            if(Multiplayer.Me.Index == 0 && triggerResetplayer0)ResetAllMinigames();
+
             if (Multiplayer.Me.Index == 1)
             {
+                ResetAllMinigames();
                 triggerReset = false;
                 Commit();
             }
@@ -124,6 +127,7 @@ public class GameManager : AttributesSync
         lossesAmount = 0;
         completedAmount_CP = 0;
         lossesAmount_CP = 0;
+        if (Multiplayer.Me.Index == 0) triggerResetplayer0 = false;
 
         // Reset Keypad Buttons
         foreach (var obj in player1SpritesOBJ)
@@ -263,6 +267,7 @@ public class GameManager : AttributesSync
                 {
                     minigamesCompleted++;
                     triggerReset = true;
+                    triggerResetplayer0 = true;
                     Commit();
                 }
             }
@@ -379,6 +384,7 @@ public class GameManager : AttributesSync
                 {
                     minigamesCompleted++;
                     triggerReset = true;
+                    triggerResetplayer0 = true; 
                     Commit();
                 }
             }
