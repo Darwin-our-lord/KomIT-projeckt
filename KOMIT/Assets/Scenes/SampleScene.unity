@@ -753,8 +753,8 @@ Canvas:
   m_GameObject: {fileID: 208025567}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -2181,7 +2181,13 @@ MonoBehaviour:
   - {fileID: -1442677830222822246, guid: 343ab192363fa024c8a73c6b64dcddbc, type: 3}
   - {fileID: -681960633852740542, guid: d2d61f8ff23f8074986c4461c1f81ac1, type: 3}
   - {fileID: 4141624642779608912, guid: 0f983fc78b7eed149b1ee1c00cb5d03f, type: 3}
-  - {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
+  - {fileID: 4845190078383878944, guid: 2f38ef107e6b3d44e97207276318ec5a, type: 3}
+  - {fileID: 8889013408432821617, guid: 6cf2cf1cd814b6a4986b11e2dc6b8654, type: 3}
+  - {fileID: 5621415235357746473, guid: 7349ef1299f82574dbec103b4522a307, type: 3}
+  - {fileID: -7334664909820839487, guid: 280c2fbd6fee8f54f93b1e4639cacb07, type: 3}
+  - {fileID: -5494716700144893706, guid: 3f3d77fb4dc0fb54ea22a336a1390253, type: 3}
+  - {fileID: 769854586275357205, guid: 25e416dea04f6d44aa931abe69834b38, type: 3}
+  - {fileID: -8418472426547974390, guid: d5504922d0ee5794ab549c787376287c, type: 3}
   player1UI: {fileID: 18147251}
   player1SpritesOBJ:
   - {fileID: 129020422}

@@ -20,7 +20,7 @@ namespace Alteruna
 
 		// manual refresh can be done by calling Multiplayer.RefreshRoomList();
 		public bool AutomaticallyRefresh = true;
-		public float RefreshInterval = 5.0f;
+		public float RefreshInterval = 2.0f;
 
 		private readonly List<RoomObject> _roomObjects = new List<RoomObject>();
 		private float _refreshTime;
