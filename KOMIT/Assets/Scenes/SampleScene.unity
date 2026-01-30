@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
-  manager: {fileID: 0}
+  manager: {fileID: 909197456}
 --- !u!61 &49033209
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -736,7 +736,7 @@ MonoBehaviour:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 300, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -958,6 +958,7 @@ GameObject:
   - component: {fileID: 352997072}
   - component: {fileID: 352997074}
   - component: {fileID: 352997075}
+  - component: {fileID: 352997076}
   m_Layer: 5
   m_Name: image (1)
   m_TagString: ColorZone
@@ -1066,7 +1067,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 50, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &352997075
 MonoBehaviour:
@@ -1081,6 +1082,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
+--- !u!50 &352997076
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352997070}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &360340800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,6 +1343,7 @@ GameObject:
   - component: {fileID: 400774103}
   - component: {fileID: 400774105}
   - component: {fileID: 400774106}
+  - component: {fileID: 400774107}
   m_Layer: 5
   m_Name: image
   m_TagString: ColorZone
@@ -1423,7 +1452,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 50, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &400774106
 MonoBehaviour:
@@ -1438,6 +1467,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
+--- !u!50 &400774107
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400774101}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &423515957
 GameObject:
   m_ObjectHideFlags: 0
@@ -2228,6 +2284,8 @@ MonoBehaviour:
   - {fileID: 989023803}
   - {fileID: 360340800}
   - {fileID: 1332722912}
+  answerSpritesID_CP: 
+  answerSpritesIDColor_CP: 
 --- !u!4 &909197457
 Transform:
   m_ObjectHideFlags: 0
@@ -3039,7 +3097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
-  manager: {fileID: 0}
+  manager: {fileID: 909197456}
 --- !u!61 &1024805695
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3338,7 +3396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
-  manager: {fileID: 0}
+  manager: {fileID: 909197456}
 --- !u!61 &1163361630
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3662,7 +3720,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
-  manager: {fileID: 0}
+  manager: {fileID: 909197456}
 --- !u!61 &1210577890
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3836,6 +3894,7 @@ GameObject:
   - component: {fileID: 1397849025}
   - component: {fileID: 1397849027}
   - component: {fileID: 1397849028}
+  - component: {fileID: 1397849029}
   m_Layer: 5
   m_Name: image (3)
   m_TagString: ColorZone
@@ -3944,7 +4003,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 50, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1397849028
 MonoBehaviour:
@@ -3959,6 +4018,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
+--- !u!50 &1397849029
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397849023}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1414347606
 GameObject:
   m_ObjectHideFlags: 0
@@ -4499,8 +4585,9 @@ GameObject:
   - component: {fileID: 1688548970}
   - component: {fileID: 1688548972}
   - component: {fileID: 1688548971}
-  - component: {fileID: 1688548973}
   - component: {fileID: 1688548974}
+  - component: {fileID: 1688548973}
+  - component: {fileID: 1688548975}
   m_Layer: 5
   m_Name: image (2)
   m_TagString: ColorZone
@@ -4609,7 +4696,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 50, y: 50}
   m_EdgeRadius: 0
 --- !u!114 &1688548974
 MonoBehaviour:
@@ -4624,6 +4711,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   answerId: 0
+--- !u!50 &1688548975
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688548969}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1719151208
 GameObject:
   m_ObjectHideFlags: 0

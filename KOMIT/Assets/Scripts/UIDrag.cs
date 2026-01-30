@@ -43,9 +43,9 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             if (collision.CompareTag("ColorZone"))
             {
-                checkforCollision =false;
                 manager.CheckRightColorMatch(answerId,collision.GetComponent<ColorZone>().answerId);
                 if (answerId == collision.GetComponent<ColorZone>().answerId) Destroy(this);
+                checkforCollision = false;
             }
         }
     }

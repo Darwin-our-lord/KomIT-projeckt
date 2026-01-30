@@ -30,10 +30,7 @@ public class GameManager : AttributesSync
     public int currentMinigame = 0;
 
     [SynchronizableField]
-    public int minigamesCompleted = 0;
-
-    [SynchronizableField]
-    public string TargetWord = "Press Space to Start";
+    public static int minigamesCompleted = 0;
 
     public bool minigameRunning = false;
 
@@ -255,6 +252,7 @@ public class GameManager : AttributesSync
                 minigameRunning = false;
                 updateMiniGameRunning = true;
                 minigameChosen = false;
+                currentMinigame = 0;
                 player1UI.SetActive(false);
                 player2UI.SetActive(false);
                 Commit();
@@ -322,71 +320,83 @@ public class GameManager : AttributesSync
             Commit();
 
             completedAmount_CP = 0;
-            answerSpritesID_CP.Clear();
 
+            // CHANGE: Create local temporary lists. 
+            // Assigning a new list reference is more reliable for sync than clearing/adding.
+            List<int> tempSprites = new List<int>();
+            List<int> tempColors = new List<int>();
 
-
-            while (answerSpritesID_CP.Count < answerSpriteAmount_CP)
+            while (tempSprites.Count < answerSpriteAmount_CP)
             {
                 int s = UnityEngine.Random.Range(0, allSprites.Count);
-                if (!answerSpritesID_CP.Contains(s)) answerSpritesID_CP.Add(s);
+                if (!tempSprites.Contains(s)) tempSprites.Add(s);
             }
-            while (answerSpritesIDColor_CP.Count < answerSpriteAmount_CP)
+
+            while (tempColors.Count < answerSpriteAmount_CP)
             {
                 int s = UnityEngine.Random.Range(0, allColors.Count);
-                if (!answerSpritesIDColor_CP.Contains(s)) answerSpritesIDColor_CP.Add(s);
+                if (!tempColors.Contains(s)) tempColors.Add(s);
             }
+
+            // CHANGE: Assign the full lists to the synced variables at once
+            answerSpritesID_CP = tempSprites;
+            answerSpritesIDColor_CP = tempColors;
 
             needsWait = false;
             Commit();
-
         }
 
-        if (needsWait) { StartCoroutine(WaitThenRestartColorPicker()); return; }
-
+        // CHANGE: Improved safety check. 
+        // We wait if the host says so OR if the data hasn't actually arrived yet.
+        if (needsWait || answerSpritesID_CP.Count < answerSpriteAmount_CP)
+        {
+            StartCoroutine(WaitThenRestartColorPicker());
+            return;
+        }
 
         if (Multiplayer.Instance.Me.Index == 0)
         {
             player1UI_CP.SetActive(true);
 
-            for (int i = 0; i < answerSpriteAmount; i++)
+            for (int i = 0; i < answerSpriteAmount_CP; i++) // CHANGE: Fixed variable name to answerSpriteAmount_CP
             {
                 player1SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[answerSpritesID_CP[i]];
                 player1ColorOBJ_CP[i].GetComponent<Image>().color = allColors[answerSpritesIDColor_CP[i]];
 
                 player1ColorOBJ_CP[i].GetComponent<ColorZone>().SetAnswerId(i);
                 player1SpritesOBJ_CP[i].GetComponent<UIDrag>().SetAnswerId(i);
-                Commit();
             }
+            // CHANGE: Removed Commit() from inside the loop (it slows down performance)
         }
-
-        if(answerSpritesIDColor_CP.Count == 0) { StartCoroutine(WaitThenRestartColorPicker()); return; }
 
         if (Multiplayer.Instance.Me.Index == 1)
         {
             player2UI_CP.SetActive(true);
 
-            List<int> answerSpritesWithExtra =  new List<int>(answerSpritesID_CP);
-            List<int> answerSpritesColorWithExtra = new List<int>(answerSpritesIDColor_CP);
-            
-            while (answerSpritesWithExtra.Count < answerSpriteAmount_CP+1)
+            // CHANGE: Create NEW copies so we don't accidentally sync the "Extra" items back to the host
+            List<int> p2Sprites = new List<int>(answerSpritesID_CP);
+            List<int> p2Colors = new List<int>(answerSpritesIDColor_CP);
+
+            while (p2Sprites.Count < answerSpriteAmount_CP + 1)
             {
                 int s = UnityEngine.Random.Range(0, allSprites.Count);
-                if (!answerSpritesWithExtra.Contains(s)) answerSpritesWithExtra.Add(s);
+                if (!p2Sprites.Contains(s)) p2Sprites.Add(s);
             }
-            while (answerSpritesColorWithExtra.Count < answerSpriteAmount_CP+1)
+
+            while (p2Colors.Count < answerSpriteAmount_CP + 1)
             {
                 int s = UnityEngine.Random.Range(0, allColors.Count);
-                if (!answerSpritesColorWithExtra.Contains(s)) answerSpritesColorWithExtra.Add(s);
+                if (!p2Colors.Contains(s)) p2Colors.Add(s);
             }
-            
 
-            for (int i = 0; i < answerSpritesWithExtra.Count; i++)
+            for (int i = 0; i < p2Sprites.Count; i++)
             {
-                //player2SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[answerSpritesWithExtra[i]];
-                //player2SpritesOBJ_CP[i].GetComponent<Image>().color = allColors[answerSpritesColorWithExtra[i]];
-                player2SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[answerSpritesID_CP[i]];
-                player2SpritesOBJ_CP[i].GetComponent<Image>().color = allColors[answerSpritesIDColor_CP[i]];
+                // CHANGE: Use the local "p2" lists and added an array length safety check
+                if (i < player2SpritesOBJ_CP.Length)
+                {
+                    player2SpritesOBJ_CP[i].GetComponent<Image>().sprite = allSprites[p2Sprites[i]];
+                    player2SpritesOBJ_CP[i].GetComponent<Image>().color = allColors[p2Colors[i]];
+                }
             }
         }
     }
@@ -399,7 +409,15 @@ public class GameManager : AttributesSync
             Debug.LogError("win");
             if (completedAmount_CP == answerSpriteAmount)
             {
-
+                minigamesCompleted++;
+                Debug.LogError("GAME WON______");
+                minigameRunning = false;
+                updateMiniGameRunning = true;
+                minigameChosen = false;
+                currentMinigame = 0;
+                player1UI_CP.SetActive(false);
+                player2UI_CP.SetActive(false);
+                Commit();
             }
 
 
