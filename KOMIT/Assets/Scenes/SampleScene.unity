@@ -386,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalPosition: {x: -73, y: -123}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &49033209
@@ -2227,8 +2228,6 @@ MonoBehaviour:
   LocalMethodBehavior: 1
   alterunaMenu: {fileID: 2067111481}
   currentMinigame: 0
-  minigamesCompleted: 0
-  TargetWord: Press Space to Start
   minigameRunning: 0
   allSprites:
   - {fileID: -6450471188067632621, guid: 047908db7d6df784aa6363eb5837919a, type: 3}
@@ -3096,6 +3095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalPosition: {x: -98, y: 146}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &1024805695
@@ -3395,6 +3395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalPosition: {x: -98, y: 0}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &1163361630
@@ -3719,6 +3720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20db3229e4158c478585c787d8c332b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalPosition: {x: -98, y: 78}
   answerId: 0
   manager: {fileID: 909197456}
 --- !u!61 &1210577890
