@@ -35,6 +35,7 @@ public class GameManager : AttributesSync
 
     private void Update()
     {
+        // 1. If a reset is triggered, clean up and STOP here for this frame.
         if (triggerReset)
         {
             ResetAllMinigames();
@@ -46,40 +47,58 @@ public class GameManager : AttributesSync
             return;
         }
 
+        // 2. If a game is currently active, do not allow rerolling or picking.
         if (minigameRunning) return;
 
         if (Multiplayer.GetUsers().Count == 2)
         {
             if (Multiplayer.Me.Index == 0)
             {
+                // 3. HOST ONLY: Only pick if a game hasn't been chosen yet.
+                // This 'minigameChosen' flag acts as our lock.
                 if (!minigameChosen)
                 {
-                    currentMinigame = 0;
                     miniGames minigame = RandomEnumValue<miniGames>();
+
                     switch (minigame)
                     {
                         case miniGames.Keypads: currentMinigame = 2; break;
                         case miniGames.ColorPick: currentMinigame = 3; break;
                     }
-                    minigameChosen = true;
+
+                    minigameChosen = true; // LOCK the choice
                     Commit();
                 }
             }
-            else
-            {
-                if (currentMinigame == 0) return;
-            }
 
+            // 4. NETWORK GATE: Don't let anyone start until the Host's choice arrives.
+            if (!minigameChosen || currentMinigame == 0) return;
+
+            // 5. START THE GAME
+            // This only runs once because minigameRunning becomes true immediately.
             switch (currentMinigame)
             {
-                case 2: minigameRunning = true; PlayKeypads(); break;
-                case 3: minigameRunning = true; PlayColorPickerGame(); break;
+                case 2:
+                    minigameRunning = true;
+                    PlayKeypads();
+                    break;
+                case 3:
+                    minigameRunning = true;
+                    PlayColorPickerGame();
+                    break;
             }
 
             if (alterunaMenu.activeSelf) alterunaMenu.SetActive(false);
         }
         else
         {
+            // Reset if someone leaves
+            if (minigameChosen || minigameRunning)
+            {
+                minigameChosen = false;
+                minigameRunning = false;
+                currentMinigame = 0;
+            }
             if (!alterunaMenu.activeSelf) alterunaMenu.SetActive(true);
         }
     }
@@ -154,6 +173,8 @@ public class GameManager : AttributesSync
         {
             needsWait = true;
             currentStageIndex = 0;
+
+            // Host generates the correct IDs in the correct sequence
             List<int> tempAns = new List<int>();
             while (tempAns.Count < answerSpriteAmount)
             {
@@ -162,6 +183,7 @@ public class GameManager : AttributesSync
             }
             answerSpritesID = tempAns;
 
+            // Host generates the grid for Player 2 (Order Guy)
             List<int> tempOrder = new List<int>(new int[orderSpriteAmount]);
             var slots = Enumerable.Range(0, orderSpriteAmount).OrderBy(_ => UnityEngine.Random.value).Take(answerSpriteAmount).OrderBy(x => x).ToList();
 
@@ -186,17 +208,38 @@ public class GameManager : AttributesSync
             Commit();
         }
 
-        if (needsWait || answerSpritesID.Count < answerSpriteAmount) { StartCoroutine(WaitThenRestart()); return; }
+        // Network safety check
+        if (needsWait || answerSpritesID.Count < answerSpriteAmount)
+        {
+            StartCoroutine(WaitThenRestart());
+            return;
+        }
 
+        // --- PLAYER 1 (ANSWER GUY) LOGIC ---
         if (Multiplayer.Instance.Me.Index == 0)
         {
             player1UI.SetActive(true);
+
+            // Shuffle the physical layout slots [0, 1, 2, 3]
+            // This ensures the first button to press isn't always the first one in the UI array.
+            List<int> layoutOrder = Enumerable.Range(0, answerSpriteAmount)
+                                              .OrderBy(x => UnityEngine.Random.value)
+                                              .ToList();
+
             for (int i = 0; i < answerSpriteAmount; i++)
             {
-                player1SpritesOBJ[i].GetComponent<Image>().sprite = allSprites[answerSpritesID[i]];
-                player1SpritesOBJ[i].GetComponent<KeypadButton>().SetIndex(i);
+                // We map the i-th correct answer to a random button slot
+                int buttonSlot = layoutOrder[i];
+
+                // Apply visual and logic to the randomized button slot
+                player1SpritesOBJ[buttonSlot].GetComponent<Image>().sprite = allSprites[answerSpritesID[i]];
+                player1SpritesOBJ[buttonSlot].GetComponent<KeypadButton>().SetIndex(i);
+
+                // Ensure color is reset
+                player1SpritesOBJ[buttonSlot].GetComponent<Image>().color = Color.white;
             }
         }
+        // --- PLAYER 2 (ORDER GUY) LOGIC ---
         else if (Multiplayer.Instance.Me.Index == 1)
         {
             player2UI.SetActive(true);
@@ -206,6 +249,7 @@ public class GameManager : AttributesSync
             }
         }
     }
+
 
     public void keyPadMinigameButton(int index)
     {
