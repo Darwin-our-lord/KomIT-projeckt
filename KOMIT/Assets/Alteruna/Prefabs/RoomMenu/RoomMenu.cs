@@ -96,8 +96,12 @@ namespace Alteruna
 				}
 			}
 
-			StartButton.interactable = false;
-			LeaveButton.interactable = false;
+			StartButton.interactable = true;
+			LeaveButton.interactable = true;
+			foreach(Button but in InGameLeaveButton)
+			{
+				but.interactable = true;
+			}
 		}
 
 		private void FixedUpdate()
@@ -180,8 +184,8 @@ namespace Alteruna
 				return;
 			}
 
-			StartButton.interactable = true;
-			LeaveButton.interactable = false;
+			//StartButton.interactable = true;
+			//LeaveButton.interactable = false;
 
 			if (TitleText != null)
 			{
@@ -191,8 +195,8 @@ namespace Alteruna
 
 		private void Disconnected(Multiplayer multiplayer, Endpoint endPoint)
 		{
-			StartButton.interactable = false;
-			LeaveButton.interactable = false;
+			//StartButton.interactable = false;
+			//LeaveButton.interactable = false;
 
 			_connectionMessage = "Reconnecting";
 			if (TitleText != null)
@@ -203,8 +207,8 @@ namespace Alteruna
 
 		private void JoinedRoom(Multiplayer multiplayer, Room room, User user)
 		{
-			StartButton.interactable = false;
-			LeaveButton.interactable = true;
+			//StartButton.interactable = false;
+			//LeaveButton.interactable = true;
 
 			if (TitleText != null)
 			{
@@ -216,8 +220,8 @@ namespace Alteruna
 		{
 			_roomI = -1;
 
-			StartButton.interactable = true;
-			LeaveButton.interactable = false;
+			//StartButton.interactable = true;
+			//LeaveButton.interactable = false;
 
 			if (TitleText != null)
 			{

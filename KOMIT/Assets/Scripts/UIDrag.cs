@@ -81,7 +81,7 @@ public class UIDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                     if (answerId == zone.answerId)
                     {
                         if (image != null) image.enabled = false;
-                        this.enabled = false;
+                        //this.enabled = false;
                     }
                     checkforCollision = false;
                 }

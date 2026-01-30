@@ -39,7 +39,7 @@ public class GameManager : AttributesSync
         if (triggerReset)
         {
             ResetAllMinigames();
-            if (Multiplayer.Me.Index == 0)
+            if (Multiplayer.Me.Index == 1)
             {
                 triggerReset = false;
                 Commit();
